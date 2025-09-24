@@ -1,5 +1,4 @@
-# This is a Databricks asset bundle definition for lifeblood_form.
-# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+# Databricks asset bundle definition for lifeblood_form.
 bundle:
   name: lifeblood_form
   uuid: 19ede3c8-1cdb-4b69-bed9-168fec005e50
@@ -8,13 +7,15 @@ include:
   - resources/*.yml
   - resources/*/*.yml
 
+variables:
+  warehouse_http_path:
+    description: HTTP path (SQL warehouse URL) used by the Lifeblood equipment checks app.
+
 targets:
   dev:
-    # The default target uses 'mode: development' to create a development copy.
-    # - Deployed resources get prefixed with '[dev my_user_name]'
-    # - Any job schedules and triggers are paused by default.
-    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
     mode: development
     default: true
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
+    variables:
+      warehouse_http_path: "{{ env.WAREHOUSE_HTTP_PATH }}"

@@ -1,0 +1,90 @@
+resources:
+  schemas:
+    lifeblood_checks_schema:
+      catalog_name: alex_feng
+      name: lifeblood_checks
+      comment: "Schema storing Lifeblood equipment check submissions captured from the Databricks app."
+
+  tables:
+    lifeblood_equipment_checks_table:
+      catalog_name: alex_feng
+      schema_name: lifeblood_checks
+      name: lifeblood_equipment_checks
+      comment: "Routine equipment inspection submissions from Lifeblood nursing teams."
+      table_type: MANAGED
+      data_source_format: DELTA
+      columns:
+        - name: inspection_date
+          type: DATE
+          comment: "Date the routine inspection took place."
+        - name: facility_name
+          type: STRING
+          comment: "Facility or donor centre where the equipment resides."
+        - name: nurse_name
+          type: STRING
+          comment: "Nurse or technician performing the inspection."
+        - name: machine_type
+          type: STRING
+          comment: "Type of device or instrument inspected."
+        - name: machine_id
+          type: STRING
+          comment: "Unique identifier or serial number for the device."
+        - name: room_location
+          type: STRING
+          comment: "Location of the equipment within the facility."
+        - name: power_status
+          type: STRING
+          comment: "Power supply check result (e.g., OK, Needs Attention)."
+        - name: alarms_functional
+          type: BOOLEAN
+          comment: "Indicates whether alarms passed functional testing."
+        - name: calibration_due_date
+          type: DATE
+          comment: "Next calibration due date noted on the device."
+        - name: calibration_confirmed
+          type: BOOLEAN
+          comment: "Whether calibration records were verified during the inspection."
+        - name: temperature_celsius
+          type: DOUBLE
+          comment: "Operating temperature recorded in Celsius."
+        - name: pressure_kpa
+          type: DOUBLE
+          comment: "Operating pressure recorded in kilopascals."
+        - name: cleaning_status
+          type: STRING
+          comment: "Cleanliness and disinfection status of the equipment."
+        - name: issues_noted
+          type: STRING
+          comment: "Summary of issues or observations captured during the inspection."
+        - name: follow_up_required
+          type: BOOLEAN
+          comment: "Indicates if follow-up action is required."
+        - name: follow_up_actions
+          type: STRING
+          comment: "Details of planned follow-up actions or responsible parties."
+        - name: user_email
+          type: STRING
+          comment: "Email address of the Databricks user submitting the form."
+        - name: submitted_at
+          type: TIMESTAMP
+          comment: "Timestamp recorded when the submission was stored."
+
+  apps:
+    lifeblood_equipment_checks_app:
+      name: "lifeblood-equipment-checks"
+      description: "Streamlit app for Lifeblood nurses to log routine equipment inspections."
+      source_code_path: "../src"
+      config:
+        command:
+          - "streamlit"
+          - "run"
+          - "app.py"
+        env:
+          - name: "DATABRICKS_WAREHOUSE_HTTP_PATH"
+            value: "{{ vars.warehouse_http_path }}"
+          - name: "CHECKS_CATALOG"
+            value: "alex_feng"
+          - name: "CHECKS_SCHEMA"
+            value: "lifeblood_checks"
+          - name: "CHECKS_TABLE"
+            value: "lifeblood_equipment_checks"
