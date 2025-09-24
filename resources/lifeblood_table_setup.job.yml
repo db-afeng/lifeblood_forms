@@ -2,11 +2,15 @@ resources:
   jobs:
     lifeblood_table_setup_job:
       name: lifeblood-table-setup
+      queue:
+        enabled: true
+      environments:
+        - environment_key: default_python
+          spec:
+            environment_version: "3"
+            dependencies: []
       tasks:
         - task_key: create_lifeblood_table
-          new_cluster:
-            spark_version: 15.4.x-scala2.12
-            serverless: true
-            num_workers: 0
+          environment_key: default_python
           spark_python_task:
             python_file: ../src/setup_lifeblood_table.py
