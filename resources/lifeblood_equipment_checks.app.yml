@@ -1,0 +1,20 @@
+resources:
+  apps:
+    lifeblood_equipment_checks_app:
+      name: "lifeblood-equipment-checks"
+      description: "Streamlit app for Lifeblood nurses to log routine equipment inspections."
+      source_code_path: "../src"
+      config:
+        command:
+          - "streamlit"
+          - "run"
+          - "app.py"
+        env:
+          - name: "DATABRICKS_WAREHOUSE_HTTP_PATH"
+            value: "{{ vars.warehouse_http_path }}"
+          - name: "CHECKS_CATALOG"
+            value: "alex_feng"
+          - name: "CHECKS_SCHEMA"
+            value: "lifeblood_checks"
+          - name: "CHECKS_TABLE"
+            value: "lifeblood_equipment_checks"

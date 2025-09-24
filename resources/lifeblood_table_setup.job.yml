@@ -1,0 +1,12 @@
+resources:
+  jobs:
+    lifeblood_table_setup_job:
+      name: lifeblood-table-setup
+      tasks:
+        - task_key: create_lifeblood_table
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            serverless: true
+            num_workers: 0
+          spark_python_task:
+            python_file: ../src/setup_lifeblood_table.py
