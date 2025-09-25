@@ -8,7 +8,7 @@ resources:
         - environment_key: default_python
           spec:
             environment_version: "3"
-            dependencies: []
+
       tasks:
         - task_key: create_lifeblood_table
           environment_key: default_python

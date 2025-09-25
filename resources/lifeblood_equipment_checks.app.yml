@@ -11,7 +11,7 @@ resources:
           - "app.py"
         env:
           - name: "DATABRICKS_WAREHOUSE_HTTP_PATH"
-            value: "{{ vars.warehouse_http_path }}"
+            value: ${var.warehouse_http_path}
           - name: "CHECKS_CATALOG"
             value: "alex_feng"
           - name: "CHECKS_SCHEMA"

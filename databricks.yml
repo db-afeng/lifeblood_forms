@@ -16,5 +16,3 @@ targets:
     default: true
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
-    variables:
-      warehouse_http_path: "{{ env.WAREHOUSE_HTTP_PATH }}"
