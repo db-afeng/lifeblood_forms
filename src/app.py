@@ -43,40 +43,12 @@ WORKSPACE_CLIENT = get_workspace_client()
 
 
 def get_current_user_email() -> Optional[str]:
-    """Attempt to resolve the email for the currently authenticated user."""
+    """Resolve the email for the current Databricks user from request headers."""
 
     try:
-        profile = WORKSPACE_CLIENT.current_user.me()
-        if profile and getattr(profile, "emails", None):
-            emails = profile.emails
-            try:
-                for entry in emails:
-                    value = getattr(entry, "value", None) or entry.get("value")  # type: ignore[arg-type]
-                    primary = getattr(entry, "primary", None) or entry.get("primary")  # type: ignore[arg-type]
-                    if value and (primary or primary is None):
-                        return value
-            except AttributeError:
-                pass
-            first = emails[0]
-            return getattr(first, "value", None) or first.get("value")  # type: ignore[arg-type]
-    except Exception:
-        pass
-
-    try:
-        from databricks.sdk.runtime import dbutils  # type: ignore
-
-        ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext()
-        for accessor in (
-            ctx.userName,
-            lambda: ctx.tags().get("userEmail"),
-            lambda: ctx.tags().get("user"),
-        ):
-            try:
-                opt = accessor()
-                if opt and opt.isDefined():
-                    return opt.get()
-            except Exception:
-                continue
+        header_email = st.context.headers.get("x-forwarded-email")  # type: ignore[attr-defined]
+        if header_email:
+            return header_email
     except Exception:
         pass
 
