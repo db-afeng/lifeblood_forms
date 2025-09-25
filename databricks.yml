@@ -9,6 +9,8 @@ include:
 variables:
   warehouse_http_path:
     description: HTTP path (SQL warehouse URL) used by the Lifeblood equipment checks app.
+  catalog_name:
+    description: Existing Catalog Name
 
 targets:
   dev:

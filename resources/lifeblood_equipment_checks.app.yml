@@ -13,7 +13,7 @@ resources:
           - name: "DATABRICKS_WAREHOUSE_HTTP_PATH"
             value: ${var.warehouse_http_path}
           - name: "CHECKS_CATALOG"
-            value: "alex_feng"
+            value: ${var.catalog_name}
           - name: "CHECKS_SCHEMA"
             value: "lifeblood_checks"
           - name: "CHECKS_TABLE"
